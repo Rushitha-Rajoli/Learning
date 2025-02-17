@@ -74,7 +74,7 @@ def main():
                 print("Welcome to your wallet!")
                 # Further actions after login can be added here.
         elif option == "3":
-            print("Goodbye!")
+            print("Thankyou for Visting!")
             break
         else:
             print("Invalid option. Please try again.")
