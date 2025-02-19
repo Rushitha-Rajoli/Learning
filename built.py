@@ -19,10 +19,8 @@ def save_users(users):
 def register_user():
    users = load_users()
 
-
    username = input("Enter username: ").strip()
    password = input("Enter password: ").strip()
-
 
    for user in users:
        if user["username"] == username:
