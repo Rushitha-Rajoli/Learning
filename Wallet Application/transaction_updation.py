@@ -1,4 +1,4 @@
-from built import login, register_user, load_users, save_users
+from login_register import login, register_user, load_users, save_users
 from datetime import datetime
 
 # Check balance function
@@ -8,10 +8,10 @@ def check_balance(user):
 # Add funds function
 def add_funds(user, users):
     amount = float(input("Enter amount to deposit: "))
-    if amount > 0:
+    if amount > 1:
         user["balance"] += amount
         user["transaction_history"].append({
-            "Date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # ✅ Dynamic Date
+            "Date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # Dynamic Date
             "Type": "Deposit",
             "Amount": f"+${amount}",
             "Balance": f"${user['balance']}"
@@ -23,6 +23,7 @@ def add_funds(user, users):
                 u.update(user)
         save_users(users)  # Save the updated balance
         print(f"Funds added! New Balance: ${user['balance']}")
+
     else:
         print("Error: Enter a valid amount!")
 
@@ -52,7 +53,7 @@ def make_payment(user, users):
 # Apply coupon function
 def apply_coupon(user, users):
     coupon_code = input("Enter coupon code: ").strip()
-    if coupon_code == "SAVE10":
+    if coupon_code == "SAVE10" and user['balance'] >=0:
         bonus = user["balance"] * 0.10
         user["balance"] += bonus
         user["transaction_history"].append({
@@ -90,10 +91,9 @@ def update_profile(user, users):
     phone = input("Enter new phone number: ").strip()
     user["email"] = email
     user["phone"] = phone
-    save_users(users)  # Save profile updates
+    save_users(users)# Save profile updates
     print("Profile Updated Successfully!")
 
-# Main function to run the wallet system
 def main():
     users = load_users()  #  Load users once at the start
     user = None
@@ -110,8 +110,10 @@ def main():
             users = load_users()  #  Reload users after registration
         elif option == "2":
             user = login()
-            users = load_users()  #  Reload users after login
-
+            if user:  # Reload users only if login is successful
+                users = load_users()
+            else:
+                continue
         if user:
             while True:
                 print("\nWallet Menu:")
