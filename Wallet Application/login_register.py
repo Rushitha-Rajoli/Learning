@@ -1,5 +1,4 @@
 import json
-
 # Load users from the JSON file
 def load_users():
    try:
@@ -8,12 +7,10 @@ def load_users():
    except FileNotFoundError:
        return []
 
-
 # Save users to the JSON file
 def save_users(users):
    with open("users.json", "w") as file:
        json.dump(users, file, indent=4)
-
 
 # Register new user function
 def register_user():
@@ -27,7 +24,6 @@ def register_user():
            print("Username already taken! Choose a different username.")
            return None
 
-
    new_user = {
        "username": username,
        "password": password,
@@ -39,23 +35,19 @@ def register_user():
    users.append(new_user)
    save_users(users)
 
-
    print("User Registered Successfully!")
    return new_user  # Return the new user object
 
 # Login function
 def login():
    users = load_users()
-
    username = input("Enter username: ").strip()
    password = input("Enter password: ").strip()
-
 
    for user in users:
        if user["username"] == username and user["password"] == password:
            print("Login Successful!")
            return user  # Return the user object
-
 
    print("User not found or incorrect password.")
    return None
